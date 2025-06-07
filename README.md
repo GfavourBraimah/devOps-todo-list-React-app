@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+# 📋 DevOps To-Do List React App (Manual Deployment via AWS Console)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project demonstrates how to manually deploy a React application to **AWS** using the **AWS Management Console**.
 
-## Available Scripts
+I manually deployed my React app by building it locally and uploading the build folder to an S3 bucket configured for static website hosting. I applied a bucket policy for public access and created a CloudFront distribution pointing to the S3 endpoint. I tested and confirmed the React app was accessible through the CloudFront URL.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📌 Week 2: Manual Deployment via AWS Console
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🎯 Objective
+Gain hands-on experience configuring and deploying AWS services **without automation tools**, using only the AWS Console.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🚀 Local App Build
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm run build
+```
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📋 Deployment Steps
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Step 1: Create and Configure S3 Bucket
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Create S3 Bucket**
+* Created an S3 bucket named: `devops-todo-list346.`
 
-### `npm run eject`
+**Enable Static Website Hosting**
+* Navigate to **Properties** tab
+* Enable **Static Website Hosting**
+* Configure settings:
+  * **Index document**: `index.html`
+  * **Error document**: `index.html`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Configure Public Access**
+* Disable "Block all public access"
+* Add the following bucket policy for public read access:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::devops-todo-list346./*"
+    }
+  ]
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+📸 **Screenshot**:  ![Screenshot](/images/S31.png)
+📸 **Screenshot**:  ![Screenshot](/images/s3bucket.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+### 📁 Step 2: Upload Build Files to S3
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Build the React application locally:**
+   ```bash
+   npm run build
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. **Upload all files from the `build/` directory using the AWS Console**
 
-### Code Splitting
+3. **Verify files are publicly accessible via S3 Static Website Endpoint**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+### 🌐 Step 3: Configure CloudFront Distribution
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Create CloudFront Distribution** with the following configuration:
+* Uses the S3 website endpoint as its origin
+* Redirects HTTP to HTTPS
+* Sets **index.html** as the default root object
 
-### Making a Progressive Web App
+📸 **Screenshot**:![CloudFront Setup](/images/cloudfront.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🔗 Live Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* **CloudFront URL**: 👉 https://d2cse1w212ycna.cloudfront.net/ 
+![CloudFront URL](/images/react3.png)
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📝 Summary of Manual Steps
 
-### `npm run build` fails to minify
+1. ✅ Built the React app locally using `npm run build`
+2. ✅ Created an S3 bucket and enabled static hosting
+3. ✅ Uploaded the `build/` folder to the S3 bucket
+4. ✅ Applied a public-read bucket policy
+5. ✅ Created a CloudFront distribution with the S3 website as origin
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+---
+
+## 🛠️ Technologies Used
+
+* **AWS S3** - Static website hosting
+* **AWS CloudFront** - Content Delivery Network
+* **React** - Frontend framework
+
+---
+
+## 📚 Additional Resources
+
+* [AWS S3 Static Website Hosting Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html)
+* [AWS CloudFront Documentation](https://docs.aws.amazon.com/cloudfront/)
+* [AWS Route 53 Documentation](https://docs.aws.amazon.com/route53/)
+
+---
+
+## 🤝 Contributing
+
+Feel free to submit issues and enhancement requests!
+
+---
