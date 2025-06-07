@@ -56,7 +56,7 @@ npm run build
 ```
 
 📸 **Screenshot**:  ![Screenshot](/images/S31.png)
-📸 **Screenshot**:  ![Screenshot](/images/s3bucket.png)
+
 
 ---
 
@@ -68,6 +68,8 @@ npm run build
    ```
 
 2. **Upload all files from the `build/` directory using the AWS Console**
+
+📸 **Screenshot**:  ![Screenshot](/images/s3bucket.png)
 
 3. **Verify files are publicly accessible via S3 Static Website Endpoint**
 
